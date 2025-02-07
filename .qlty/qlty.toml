@@ -60,42 +60,6 @@ name = "default"
 default = true
 
 [[plugin]]
-name = "brakeman"
-
-[[plugin]]
-name = "checkov"
-
-[[plugin]]
-name = "golangci-lint"
-
-[[plugin]]
-name = "hadolint"
-
-[[plugin]]
-name = "markdownlint"
-version = "0.41.0"
-
-[[plugin]]
-name = "osv-scanner"
-
-[[plugin]]
-name = "prettier"
-
-[[plugin]]
-name = "reek"
-
-[[plugin]]
-name = "ripgrep"
-
-[[plugin]]
-name = "rubocop"
-
-[[plugin]]
-name = "trivy"
-drivers = [
-  "config",
-  "fs-vuln",
-]
-
-[[plugin]]
-name = "trufflehog"
+name = "standardrb"
+extra_packages = ["standard-rails@1.2.0"]
+version = "1.41.1"
