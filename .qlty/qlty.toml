@@ -52,6 +52,9 @@ test_patterns = [
   "**/spec_*.*",
 ]
 
+[runtimes.enabled]
+ruby = "3.0.7"
+
 [smells]
 mode = "comment"
 
@@ -63,3 +66,8 @@ default = true
 name = "standardrb"
 extra_packages = ["standard-rails@1.2.0"]
 version = "1.41.1"
+
+[[plugin]]
+name = "rubocop"
+extra_packages = ["rubocop-rails@2.26.2"]
+version = "1.70.0"
