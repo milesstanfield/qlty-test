@@ -6,7 +6,7 @@ A rails repo created to help demonstrate an issue with [qlty cli](http://github.
 
 [standard](https://github.com/standardrb/standard) is a linter/formatter built on [RuboCop](https://github.com/rubocop/rubocop). Standard's CLI is invoked by calling `standardrb` and `qlty` named [it's plugin](https://github.com/qltysh/qlty/tree/main/qlty-plugins/plugins/linters/standardrb) to match that.
 
-The qlty `standardrb` plugin works great most of the time but if you add the [standard-rails](https://github.com/standardrb/standard-rails) `extra_package`, any/all rubocop cops which have a `NOTE: Required Rails version:` of any kind like [this one](https://docs.rubocop.org/rubocop-rails/cops_rails.html#railsenumsyntax) or [this one](https://docs.rubocop.org/rubocop-rails/cops_rails.html#railsenvlocal), will fail to be formatted by the qlty standardrb plugin. The qlty `standardrb` plugin "linter" will be able to check/complain about it, but the "formatter" is unable to fix it.
+The qlty `standardrb` plugin works great most of the time but if you add the [standard-rails](https://github.com/standardrb/standard-rails) `extra_package`, any/all rubocop cops which have a `NOTE: Required Rails version:` of any kind like [this one](https://docs.rubocop.org/rubocop-rails/cops_rails.html#railsenumsyntax) or [this one](https://docs.rubocop.org/rubocop-rails/cops_rails.html#railsenvlocal), will fail to be formatted by the qlty standardrb plugin. The qlty `standardrb` plugin "linter" _will_ be able to check/complain about it, but the "formatter" is unable to fix it.
 
 This occurs because the rubocop source code expects to find [Gemfile.lock](https://github.com/rubocop/rubocop/blob/master/lib/rubocop/config.rb#L289) and [.bundle/config](https://github.com/rubocop/rubocop/blob/master/lib/rubocop/lockfile.rb#L78) files in a directory above where the cop is run from in order to format/fix offenses that have a specific "target_rails_version", _but_ qlty CLI executes the formatting inside of a folder at `/tmp/qlty` which prevents rubocop from formatting/fixing those offenses.
 
@@ -73,8 +73,8 @@ script = """
 lockfile=$(echo \"${config_file}\" | sed \"s/.standard.yml/Gemfile.lock/\");
 destination=${PWD%/*};
 cp -rf $lockfile $destination;
-mkdir -p ${destination}/.bundle
-cp -rf ~/.bundle/config ${destination}/.bundle;
+mkdir -p ${destination}/.bundle;
+touch ${destination}/.bundle;
 standardrb ${target} --fix
 """
 ```
@@ -86,8 +86,8 @@ script = """
 lockfile=$(echo \"${config_file}\" | sed \"s/.rubocop.yml/Gemfile.lock/\");
 destination=${PWD%/*};
 cp -rf $lockfile $destination;
-mkdir -p ${destination}/.bundle
-cp -rf ~/.bundle/config ${destination}/.bundle;
+mkdir -p ${destination}/.bundle;
+touch ${destination}/.bundle;
 rubocop --autocorrect ${target}
 """
 ```
